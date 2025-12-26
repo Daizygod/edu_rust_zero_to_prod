@@ -1,41 +1,7 @@
-use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Responder};
-
-async fn greet(req: HttpRequest) -> impl Responder {
-    let name = req.match_info().get("name").unwrap_or("World");
-    format!("Hello {}!", &name)
-}
-
-async fn health_check() -> impl Responder {
-    HttpResponse::Ok().finish()
-}
-
+use std::net::TcpListener;
+use rust_edu_zero2prod::run;
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .route("/", web::get().to(greet))
-            // .route("/{name}", web::get().to(greet))
-            .route("/health_check", web::get().to(health_check))
-    })
-        .bind("127.0.0.1:8000")?
-        .run()
-        .await
+    let listener = TcpListener::bind("127.0.0.1:8000").expect("Failed to bind address");
+    run(listener)?.await
 }
-
-// fn main() {
-//     let stdout = stdout();
-//     let mut count = 0;
-//     while count < 10 {
-//         count += 1;
-//     }
-//     let s = "Hello fellow Rustaceans! aoa как дела братья ";
-//
-//     if count >= 10 {
-//
-//         let message = format!("{s}{count}");
-//         let width = message.chars().count();
-//
-//         let mut writer = BufWriter::new(stdout.lock());
-//         say(&message, width, &mut writer).unwrap();
-//     }
-// }
