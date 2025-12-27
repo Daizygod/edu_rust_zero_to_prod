@@ -1,0 +1,7 @@
+edu project by book
+Luca Palmieri - Zero To Production In Rust
+==========================================
+
+commands
+sqlx migrate run --database-url=postgres://postgres:password@127.0.0.1:5432/newsletter
+------------------------------------------
